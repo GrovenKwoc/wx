@@ -52,10 +52,10 @@ public class WxController {
 
     @GetMapping("/wx")
     public String verifyWX(String signature, String timestamp, String nonce, String echostr) {
-        logger.info("微信传来的signature是：{}", signature);
-        logger.info("微信传来的timestamp是：{}", timestamp);
-        logger.info("微信传来的nonce随机字符串是{}", nonce);
-        logger.info("微信说要返回给它的是：{}", echostr);
+        String.format("微信传来的signature是：%s", signature);
+        String.format("微信传来的timestamp是：%s", timestamp);
+        String.format("微信传来的nonce随机字符串是: %s", nonce);
+        String.format("微信说要返回给它的是：%s", echostr);
         String[] str = {TOKEN, timestamp, nonce};
         Arrays.sort(str); // 字典序排序
         String bigStr = str[0] + str[1] + str[2];
@@ -74,6 +74,6 @@ public class WxController {
         if (!StringUtils.isEmpty(tmpStr) && tmpStr.equals(signature.toLowerCase())) {
             return echostr;
         }
-        return null;
+        return "验证失败";
     }
 }
