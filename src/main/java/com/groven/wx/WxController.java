@@ -1,5 +1,8 @@
 package com.groven.wx;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -8,10 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
-import java.util.Map;
 
 /**
  * @Author: groven
@@ -81,13 +84,11 @@ public class WxController {
     }
 
     @PostMapping("/wx")
-    public String receiveMsg(HttpServletRequest request) {
-        Map<String, String[]> map = request.getParameterMap();
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, String[]> entry : map.entrySet()) {
-            sb.append(entry.getKey() + ":" + entry.getValue()[0] + "\n");
-        }
-        logger.error("received msg from user：{}", sb.toString());
+    public String receiveMsg(HttpServletRequest request) throws IOException, DocumentException {
+        Document doc = new SAXReader().read(request.getInputStream());
+        String content = doc.getRootElement().element("Content").getStringValue();
+
+        logger.error("received msg from user：{}\n", StringUtils.isEmpty(content) ? "failed to get user's msg" : content);
         return "success";
     }
 }
