@@ -95,7 +95,7 @@ public class WxController {
         logger.error("received msg from user：{}", sb.toString());
         return "<xml>\n" +
                 " <ToUserName><![CDATA[" + doc.getRootElement().element("FromUserName").getStringValue() + "]]></ToUserName>\n" +
-                " <FromUserName><![CDATA[" + doc.getRootElement().element("ToUserNam").getStringValue() + "]]></FromUserName>\n" +
+                " <FromUserName><![CDATA[" + doc.getRootElement().element("ToUserName").getStringValue() + "]]></FromUserName>\n" +
                 " <CreateTime>" + new Date().getTime() + "</CreateTime>\n" +
                 " <MsgType><![CDATA[text]]></MsgType>\n" +
                 " <Content><![CDATA[test]]></Content>\n" +
