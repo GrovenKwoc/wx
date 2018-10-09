@@ -2,6 +2,7 @@ package com.groven.wx;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
+import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * @Author: groven
@@ -86,9 +88,10 @@ public class WxController {
     @PostMapping("/wx")
     public String receiveMsg(HttpServletRequest request) throws IOException, DocumentException {
         Document doc = new SAXReader().read(request.getInputStream());
-        String content = doc.getRootElement().element("Content").getStringValue();
-
-        logger.error("received msg from user：{}\n", StringUtils.isEmpty(content) ? "failed to get user's msg" : content);
+        List<Element> elements = doc.getRootElement().elements();
+        StringBuilder sb = new StringBuilder("\n");
+        elements.stream().forEach(e -> sb.append(e.getName() + ":" + e.getStringValue() + "\n"));
+        logger.error("received msg from user：{}", sb.toString());
         return "success";
     }
 }
