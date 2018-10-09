@@ -94,8 +94,8 @@ public class WxController {
         elements.stream().forEach(e -> sb.append(e.getName() + ":" + e.getStringValue() + "\n"));
         logger.error("received msg from user：{}", sb.toString());
         return "<xml>\n" +
-                " <ToUserName><![CDATA[" + doc.getRootElement().element("FromUserName") + "]]></ToUserName>\n" +
-                " <FromUserName><![CDATA[" + doc.getRootElement().element("ToUserNam") + "]]></FromUserName>\n" +
+                " <ToUserName><![CDATA[" + doc.getRootElement().element("FromUserName").getStringValue() + "]]></ToUserName>\n" +
+                " <FromUserName><![CDATA[" + doc.getRootElement().element("ToUserNam").getStringValue() + "]]></FromUserName>\n" +
                 " <CreateTime>" + new Date().getTime() + "</CreateTime>\n" +
                 " <MsgType><![CDATA[text]]></MsgType>\n" +
                 " <Content><![CDATA[test]]></Content>\n" +
