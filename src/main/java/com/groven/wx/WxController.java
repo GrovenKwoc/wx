@@ -65,7 +65,7 @@ public class WxController {
             e.printStackTrace();
         }
         // 确认请求来至微信
-        if (!StringUtils.isEmpty(tmpStr) && tmpStr.equals(signature)) {
+        if (!StringUtils.isEmpty(tmpStr) && tmpStr.equals(signature.toLowerCase())) {
             return echostr;
         }
         return null;
