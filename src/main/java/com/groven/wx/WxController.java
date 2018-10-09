@@ -79,7 +79,7 @@ public class WxController {
     }
 
     @PostMapping("/wx")
-    public void receiveMsg(String xmlPack) {
-        logger.info(xmlPack);
+    public void receiveMsg(WXTextMessageDto textMessageDto) {
+        logger.error("接收到用户消息：{}", textMessageDto);
     }
 }
