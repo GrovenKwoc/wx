@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.MessageDigest;
@@ -75,5 +76,10 @@ public class WxController {
             return echostr;
         }
         return "验证失败,你传来了" + signature + "/" + timestamp + "/" + nonce + "/" + echostr;
+    }
+
+    @PostMapping("/wx")
+    public void receiveMsg(String xmlPack) {
+        logger.info(xmlPack);
     }
 }
