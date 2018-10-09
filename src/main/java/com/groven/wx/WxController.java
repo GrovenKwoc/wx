@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * @Author: groven
@@ -79,7 +81,12 @@ public class WxController {
     }
 
     @PostMapping("/wx")
-    public void receiveMsg(WXTextMessageDto textMessageDto) {
-        logger.error("接收到用户消息：{}", textMessageDto);
+    public void receiveMsg(HttpServletRequest request) {
+        Map<String, String[]> map = request.getParameterMap();
+        StringBuilder sb = new StringBuilder();
+        for (Map.Entry<String, String[]> entry : map.entrySet()) {
+            sb.append(entry.getKey() + ":" + entry.getValue()[0] + "\n");
+        }
+        logger.error("接收到用户消息：{}", sb.toString());
     }
 }
