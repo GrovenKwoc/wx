@@ -55,10 +55,10 @@ public class WxController {
 
     @GetMapping("/wx")
     public String verifyWX(String signature, String timestamp, String nonce, String echostr) {
-        logger.error("微信传来的signature是：{}", signature);
-        logger.error("微信传来的timestamp是：{}", timestamp);
-        logger.error("微信传来的nonce随机字符串是: {}", nonce);
-        logger.error("微信说要返回给它的是：{}", echostr);
+        logger.error("wx has sent a signature：{}", signature);
+        logger.error("wx has sent a timestamp：{}", timestamp);
+        logger.error("wx has sent a nonce: {}", nonce);
+        logger.error("wx wants you to send back：{}", echostr);
         String[] str = {TOKEN, timestamp, nonce};
         Arrays.sort(str); // 字典序排序
         String bigStr = str[0] + str[1] + str[2];
@@ -77,7 +77,7 @@ public class WxController {
         if (!StringUtils.isEmpty(tmpStr) && tmpStr.equals(signature.toLowerCase())) {
             return echostr;
         }
-        return "验证失败,你传来了" + signature + "/" + timestamp + "/" + nonce + "/" + echostr;
+        return "authenticate failed" + signature + "/" + timestamp + "/" + nonce + "/" + echostr;
     }
 
     @PostMapping("/wx")
