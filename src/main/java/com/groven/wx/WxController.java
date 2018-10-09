@@ -1,5 +1,7 @@
 package com.groven.wx;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +19,7 @@ import java.util.Arrays;
 @RestController
 public class WxController {
     private static final String TOKEN = "groven";
-
+    private static final Logger logger = LoggerFactory.getLogger(WxController.class);
     /**
      * 将字节数组转换为十六进制字符串
      *
@@ -50,6 +52,10 @@ public class WxController {
 
     @GetMapping("/wx")
     public String verifyWX(String signature, String timestamp, String nonce, String echostr) {
+        logger.info("微信传来的signature是：{}", signature);
+        logger.info("微信传来的timestamp是：{}", timestamp);
+        logger.info("微信传来的nonce随机字符串是{}", nonce);
+        logger.info("微信说要返回给它的是：{}", echostr);
         String[] str = {TOKEN, timestamp, nonce};
         Arrays.sort(str); // 字典序排序
         String bigStr = str[0] + str[1] + str[2];
