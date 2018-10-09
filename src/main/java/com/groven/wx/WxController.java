@@ -87,7 +87,7 @@ public class WxController {
         for (Map.Entry<String, String[]> entry : map.entrySet()) {
             sb.append(entry.getKey() + ":" + entry.getValue()[0] + "\n");
         }
-        logger.error("接收到用户消息：{}", sb.toString());
+        logger.error("received msg from user：{}", sb.toString());
         return "success";
     }
 }
