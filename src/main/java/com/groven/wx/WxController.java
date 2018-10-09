@@ -81,12 +81,13 @@ public class WxController {
     }
 
     @PostMapping("/wx")
-    public void receiveMsg(HttpServletRequest request) {
+    public String receiveMsg(HttpServletRequest request) {
         Map<String, String[]> map = request.getParameterMap();
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String[]> entry : map.entrySet()) {
             sb.append(entry.getKey() + ":" + entry.getValue()[0] + "\n");
         }
         logger.error("接收到用户消息：{}", sb.toString());
+        return "success";
     }
 }
