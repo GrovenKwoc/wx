@@ -113,7 +113,7 @@ public class WxController {
                         " <CreateTime>" + new Date().getTime() + "</CreateTime>\n" +
                         " <MsgType><![CDATA[image]]></MsgType>\n" +
                         " <Image>\n" +
-                        " <MediaId><![CDATA[" + doc.getRootElement().element("MediaId").getStringValue() + "]]></MediaId>\n" +
+                        " <MediaId><![CDATA[BTAs7VlAUNQQ2zRp7BkARxAd4XNrLKHusicySh37Huv4ub6jIGJGudgtm3hntOxT]]></MediaId>\n" +
                         " </Image>\n" +
                         " </xml>";
             default:
