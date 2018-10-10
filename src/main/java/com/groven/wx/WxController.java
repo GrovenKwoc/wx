@@ -29,6 +29,7 @@ import java.util.List;
 public class WxController {
     private static final String TOKEN = "groven";
     private static final Logger logger = LoggerFactory.getLogger(WxController.class);
+
     /**
      * 将字节数组转换为十六进制字符串
      *
@@ -90,15 +91,33 @@ public class WxController {
     public String receiveMsg(HttpServletRequest request) throws IOException, DocumentException {
         Document doc = new SAXReader().read(request.getInputStream());
         List<Element> elements = doc.getRootElement().elements();
+        String msgType = doc.getRootElement().element("MsgType").getStringValue();
         StringBuilder sb = new StringBuilder("\n");
-        elements.stream().forEach(e -> sb.append(e.getName() + ":" + e.getStringValue() + "\n"));
+        elements.stream().forEach(e -> {
+            sb.append(e.getName() + ":" + e.getStringValue() + "\n");
+        });
         logger.error("received msg from user：{}", sb.toString());
-        return "<xml>\n" +
-                " <ToUserName><![CDATA[" + doc.getRootElement().element("FromUserName").getStringValue() + "]]></ToUserName>\n" +
-                " <FromUserName><![CDATA[" + doc.getRootElement().element("ToUserName").getStringValue() + "]]></FromUserName>\n" +
-                " <CreateTime>" + new Date().getTime() + "</CreateTime>\n" +
-                " <MsgType><![CDATA[text]]></MsgType>\n" +
-                " <Content><![CDATA[test]]></Content>\n" +
-                " </xml>";
+        switch (msgType) {
+            case "text":
+                return "<xml>\n" +
+                        " <ToUserName><![CDATA[" + doc.getRootElement().element("FromUserName").getStringValue() + "]]></ToUserName>\n" +
+                        " <FromUserName><![CDATA[" + doc.getRootElement().element("ToUserName").getStringValue() + "]]></FromUserName>\n" +
+                        " <CreateTime>" + new Date().getTime() + "</CreateTime>\n" +
+                        " <MsgType><![CDATA[text]]></MsgType>\n" +
+                        " <Content><![CDATA[test]]></Content>\n" +
+                        " </xml>";
+            case "image":
+                return "<xml>\n" +
+                        " <ToUserName><![CDATA[" + doc.getRootElement().element("FromUserName").getStringValue() + "]]></ToUserName>\n" +
+                        " <FromUserName><![CDATA[" + doc.getRootElement().element("ToUserName").getStringValue() + "]]></FromUserName>\n" +
+                        " <CreateTime>" + new Date().getTime() + "</CreateTime>\n" +
+                        " <MsgType><![CDATA[image]]></MsgType>\n" +
+                        " <Image>\n" +
+                        " <MediaId><![CDATA[" + doc.getRootElement().element("MediaId").getStringValue() + "]]></MediaId>\n" +
+                        " </Image>\n" +
+                        " </xml>";
+            default:
+                return "success";
+        }
     }
 }
